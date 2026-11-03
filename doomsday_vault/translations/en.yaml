@@ -1,0 +1,32 @@
+configuration:
+  storage_path:
+    name: Storage path
+    description: >-
+      Where downloaded content is stored. Must be under /media or /share.
+  update_schedule:
+    name: Update schedule
+    description: >-
+      How often sources are checked for new releases. Individual sources can
+      override this in the Archive tab.
+  update_hour:
+    name: Update hour
+    description: Hour of the day (0-23) when scheduled update checks run.
+  auto_start_downloads:
+    name: Start downloads automatically
+    description: >-
+      Start the first download as soon as the app starts, without pressing
+      "Initiate download" in the side panel.
+  min_free_gb:
+    name: Reserved free space (GB)
+    description: >-
+      Disk space that is always kept free. Downloads that would go below it
+      are skipped.
+  max_download_mbit:
+    name: Bandwidth limit (Mbit/s)
+    description: Maximum download speed. 0 means unlimited.
+  verify_checksums:
+    name: Verify checksums
+    description: Check Kiwix downloads against their published SHA-256 checksum.
+  log_level:
+    name: Log level
+    description: How much detail the app writes to its log.

@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en" data-theme="green">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Doomsday Vault</title>
+  <link rel="icon" href="static/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+  <!-- Logo, drawn once and reused. Colors follow the active terminal theme. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <clipPath id="dv-hatch-clip">
+        <polygon points="120,36 192.7,78 192.7,162 120,204 47.3,162 47.3,78"/>
+      </clipPath>
+      <symbol id="dv-logo" viewBox="0 0 240 240">
+        <!-- bunker hatch -->
+        <polygon points="120,14 211.8,67 211.8,173 120,226 28.2,173 28.2,67" fill="var(--logo-bg)" stroke="var(--logo-fg)" stroke-width="6" stroke-linejoin="round"/>
+        <polygon points="120,36 192.7,78 192.7,162 120,204 47.3,162 47.3,78" fill="none" stroke="var(--logo-fg)" stroke-width="2.5" stroke-linejoin="round"/>
+        <g fill="var(--logo-fg)">
+          <circle cx="120" cy="25" r="4"/><circle cx="202" cy="72.5" r="4"/><circle cx="202" cy="167.5" r="4"/>
+          <circle cx="120" cy="215" r="4"/><circle cx="38" cy="167.5" r="4"/><circle cx="38" cy="72.5" r="4"/>
+        </g>
+        <!-- sunburst -->
+        <g clip-path="url(#dv-hatch-clip)">
+          <circle cx="120" cy="100" r="52" fill="none" stroke="var(--logo-fg)" stroke-width="104" stroke-dasharray="10.21 10.21" opacity="0.22"/>
+        </g>
+        <!-- vault door -->
+        <circle cx="120" cy="100" r="50" fill="var(--logo-bg)" stroke="var(--logo-fg)" stroke-width="5"/>
+        <circle cx="120" cy="100" r="40" fill="none" stroke="var(--logo-fg)" stroke-width="2.5"/>
+        <rect x="61" y="80" width="11" height="12" rx="1.5" fill="var(--logo-fg)"/><rect x="61" y="108" width="11" height="12" rx="1.5" fill="var(--logo-fg)"/>
+        <g fill="var(--logo-fg)">
+          <circle cx="161.6" cy="82.8" r="2.6"/><circle cx="137.2" cy="58.4" r="2.6"/><circle cx="102.8" cy="58.4" r="2.6"/><circle cx="78.4" cy="82.8" r="2.6"/>
+          <circle cx="78.4" cy="117.2" r="2.6"/><circle cx="102.8" cy="141.6" r="2.6"/><circle cx="137.2" cy="141.6" r="2.6"/><circle cx="161.6" cy="117.2" r="2.6"/>
+        </g>
+        <!-- handwheel -->
+        <circle cx="120" cy="100" r="20" fill="none" stroke="var(--logo-fg)" stroke-width="3"/>
+        <g stroke="var(--logo-fg)" stroke-width="5" stroke-linecap="round">
+          <line x1="120" y1="72" x2="120" y2="128"/><line x1="95.75" y1="86" x2="144.25" y2="114"/><line x1="95.75" y1="114" x2="144.25" y2="86"/>
+        </g>
+        <g fill="var(--logo-fg)">
+          <circle cx="120" cy="72" r="4.5"/><circle cx="120" cy="128" r="4.5"/><circle cx="95.75" cy="86" r="4.5"/>
+          <circle cx="144.25" cy="114" r="4.5"/><circle cx="95.75" cy="114" r="4.5"/><circle cx="144.25" cy="86" r="4.5"/>
+          <circle cx="120" cy="100" r="9"/>
+        </g>
+        <circle cx="120" cy="100" r="3.5" fill="var(--logo-bg)"/>
+        <!-- banner -->
+        <polygon points="30,166 4,166 14,180 4,194 30,194" fill="var(--logo-fg)" opacity="0.75"/>
+        <polygon points="210,166 236,166 226,180 236,194 210,194" fill="var(--logo-fg)" opacity="0.75"/>
+        <rect x="18" y="160" width="204" height="30" rx="2" fill="var(--logo-fg)"/>
+        <text x="120" y="182" text-anchor="middle" textLength="176" lengthAdjust="spacingAndGlyphs"
+              font-family="VT323, ui-monospace, monospace" font-size="24" fill="var(--logo-bg)">DOOMSDAY VAULT</text>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- Boot sequence -->
+  <section id="boot" class="boot" aria-label="Starting">
+    <svg class="boot-logo" role="img" aria-label="Doomsday Vault logo"><use href="#dv-logo"/></svg>
+    <pre id="boot-text" class="boot-text"></pre>
+    <p class="boot-skip">[ press any key ]</p>
+  </section>
+
+  <header class="top">
+    <div class="brand">
+      <svg class="brand-logo" aria-hidden="true"><use href="#dv-logo"/></svg>
+      <div>
+        <h1>Doomsday Vault</h1>
+        <p id="status-line" class="status-line">Connecting to archive…</p>
+      </div>
+    </div>
+    <form id="quick-search" class="quick-search" role="search">
+      <label class="sr-only" for="quick-q">Search the library</label>
+      <span aria-hidden="true">&gt;</span>
+      <input id="quick-q" type="search" placeholder="search the archive_" autocomplete="off">
+    </form>
+    <button id="theme-toggle" class="btn ghost" type="button" title="Switch phosphor color">AMBER</button>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="library" aria-selected="true">Library</button>
+    <button role="tab" data-tab="search">Search</button>
+    <button role="tab" data-tab="map">Map</button>
+    <button role="tab" data-tab="inventory">Inventory</button>
+    <button role="tab" data-tab="armory">Armory</button>
+    <button role="tab" data-tab="archive">Archive</button>
+    <button role="tab" data-tab="status">Status</button>
+  </nav>
+
+  <main>
+    <section id="tab-library" class="tab" role="tabpanel"></section>
+
+    <section id="tab-search" class="tab" role="tabpanel" hidden>
+      <form id="search-form" class="search-big" role="search">
+        <label class="sr-only" for="search-q">Search query</label>
+        <span aria-hidden="true">&gt;</span>
+        <input id="search-q" type="search" placeholder="water purification, splint a broken arm, wire a solar panel…" autocomplete="off">
+        <select id="search-scope" aria-label="Search scope"><option value="">All sources</option></select>
+        <button class="btn" type="submit">Search</button>
+      </form>
+      <div id="search-results" class="search-results"></div>
+    </section>
+
+    <section id="tab-map" class="tab tab-map" role="tabpanel" hidden></section>
+
+    <section id="tab-inventory" class="tab" role="tabpanel" hidden>
+      <div class="toolbar">
+        <button id="inv-add" class="btn portable-hide" type="button">+ Add item</button>
+        <div class="chips" role="group" aria-label="Show">
+          <button class="chip" type="button" data-inv-view="all" aria-pressed="true">All</button>
+          <button class="chip" type="button" data-inv-view="soon" aria-pressed="false">Expiring</button>
+          <button class="chip" type="button" data-inv-view="expired" aria-pressed="false">Expired</button>
+        </div>
+        <label class="sr-only" for="inv-filter">Filter items</label>
+        <input id="inv-filter" class="filter" type="search" placeholder="filter…">
+      </div>
+      <div id="inv-body"></div>
+    </section>
+
+    <section id="tab-armory" class="tab" role="tabpanel" hidden></section>
+
+    <section id="tab-archive" class="tab" role="tabpanel" hidden>
+      <div class="toolbar">
+        <button id="add-source" class="btn" type="button">+ Add source</button>
+        <button id="update-all" class="btn ghost" type="button">Check all for updates</button>
+        <button id="export-open" class="btn ghost" type="button">Export to drive</button>
+        <label class="sr-only" for="archive-filter">Filter sources</label>
+        <input id="archive-filter" class="filter" type="search" placeholder="filter…">
+      </div>
+      <div id="archive-list"></div>
+    </section>
+
+    <section id="tab-status" class="tab" role="tabpanel" hidden></section>
+  </main>
+
+  <!-- Reader overlay -->
+  <div id="reader" class="reader" hidden>
+    <div class="reader-bar">
+      <button id="reader-close" class="btn" type="button">&times; Close</button>
+      <button id="reader-back" class="btn ghost" type="button" disabled>&lt; Back</button>
+      <span id="reader-title" class="reader-title"></span>
+    </div>
+    <iframe id="reader-frame" title="Reader"></iframe>
+  </div>
+
+  <!-- Source editor -->
+  <dialog id="editor" class="editor">
+    <form id="editor-form" method="dialog">
+      <h2 id="editor-title">Add source</h2>
+      <label>Name <input name="name" required></label>
+      <label>Category <input name="category" list="category-list" required></label>
+      <datalist id="category-list"></datalist>
+      <label>Type
+        <select name="type">
+          <option value="kiwix">Kiwix ZIM archive (auto-updates to newest release)</option>
+          <option value="url">Direct file link (PDF, TXT, HTML, ZIM…)</option>
+        </select>
+      </label>
+      <div data-for="kiwix">
+        <label>Folder <input name="folder" placeholder="e.g. wikipedia, other, zimit, stack_exchange"></label>
+        <label>Book <input name="book" placeholder="e.g. wikipedia_en_all_maxi"></label>
+        <p class="hint">Browse download.kiwix.org/zim/ — folder is the directory, book is the file name without the trailing <code>_YYYY-MM.zim</code>.</p>
+      </div>
+      <div data-for="url">
+        <label>URL <input name="url" type="url" placeholder="https://example.org/manual.pdf"></label>
+        <p class="hint">Re-downloaded only when the server reports a change (ETag / Last-Modified).</p>
+      </div>
+      <label>Update schedule
+        <select name="schedule">
+          <option value="default">App default</option>
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="manual">Manual only</option>
+        </select>
+      </label>
+      <label>Approx. size <input name="size_hint" placeholder="e.g. 2.5G"></label>
+      <label>Description <textarea name="description" rows="2"></textarea></label>
+      <label class="check"><input name="enabled" type="checkbox" checked> Enabled</label>
+      <label class="check"><input name="restyle" type="checkbox" checked> Show pages in the library design (turn off for maps and interactive content)</label>
+      <p id="editor-error" class="error" role="alert"></p>
+      <div class="dialog-actions">
+        <button class="btn ghost" value="cancel" formnovalidate>Cancel</button>
+        <button class="btn" value="save">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Inventory item -->
+  <dialog id="inv-editor" class="editor">
+    <form id="inv-form" method="dialog">
+      <h2 id="inv-title">Add item</h2>
+      <fieldset class="plain">
+        <label>Name <input name="name" required maxlength="140"></label>
+        <div class="row2">
+          <label>Category <input name="category" list="inv-cats" required></label>
+          <label>Storage location <input name="location" list="inv-locations" placeholder="e.g. Basement shelf 2"></label>
+        </div>
+        <datalist id="inv-cats"></datalist>
+        <datalist id="inv-locations"></datalist>
+        <div class="row2">
+          <label>Quantity <input name="quantity" type="number" step="any" min="0" inputmode="decimal"></label>
+          <label>Unit <input name="unit" list="inv-units" placeholder="cans, l, kg, pcs…"></label>
+        </div>
+        <datalist id="inv-units"><option value="pcs"><option value="cans"><option value="boxes"><option value="bottles"><option value="l"><option value="gal"><option value="kg"><option value="lb"><option value="servings"><option value="packs"></datalist>
+        <div class="row2">
+          <label>Purchased <input name="purchased" type="date"></label>
+          <label>Expires <input name="expires" type="date"></label>
+        </div>
+        <label>Notes <textarea name="notes" rows="2"></textarea></label>
+      </fieldset>
+      <div class="photo-field">
+        <span class="label">Photos</span>
+        <div id="inv-photos" class="thumbs"></div>
+        <label class="btn small ghost portable-hide">+ Add photo<input id="inv-photo-input" type="file" accept="image/*" multiple hidden></label>
+      </div>
+      <p id="inv-error" class="error" role="alert"></p>
+      <div class="dialog-actions">
+        <button class="btn danger portable-hide" type="button" id="inv-delete">Delete</button>
+        <span style="flex:1"></span>
+        <button class="btn ghost" value="cancel" formnovalidate>Close</button>
+        <button class="btn portable-hide" value="save">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Armory item -->
+  <dialog id="arm-editor" class="editor">
+    <form id="arm-form" method="dialog">
+      <h2 id="arm-title">Add weapon</h2>
+      <div id="arm-fields"></div>
+      <p class="hint">Saved here first, then sent to WeaponLog with the next sync. If WeaponLog is unreachable, the change waits and is sent automatically later.</p>
+      <p id="arm-error" class="error" role="alert"></p>
+      <div class="dialog-actions">
+        <button class="btn danger" type="button" id="arm-delete">Delete</button>
+        <span style="flex:1"></span>
+        <button class="btn ghost" value="cancel" formnovalidate>Cancel</button>
+        <button class="btn" value="save">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- WeaponLog connection -->
+  <dialog id="arm-connect" class="editor">
+    <form id="arm-connect-form" method="dialog">
+      <h2>Connect WeaponLog</h2>
+      <ol class="steps">
+        <li>In WeaponLog, open <b>Settings</b> and create an <b>API token</b>. (If the button is missing, an admin has to enable API access for your account first.)</li>
+        <li>Copy the token and paste it below together with the address of your WeaponLog.</li>
+      </ol>
+      <label>WeaponLog address <input name="url" type="url" placeholder="https://weaponlog.com" required></label>
+      <label>API token <input name="token" type="password" autocomplete="off" placeholder="paste the token"></label>
+      <p class="hint" id="arm-token-hint"></p>
+      <label>Sync every (minutes) <input name="interval" type="number" min="5" max="1440" value="60"></label>
+      <p id="arm-connect-error" class="error" role="alert"></p>
+      <div class="dialog-actions">
+        <button class="btn ghost" value="cancel" formnovalidate>Cancel</button>
+        <button class="btn" value="save">Save &amp; sync</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Export to drive -->
+  <dialog id="exporter" class="editor export" aria-labelledby="export-title">
+    <div class="export-head">
+      <h2 id="export-title">Export to drive</h2>
+      <button class="btn small ghost" type="button" data-export="close">Close</button>
+    </div>
+
+    <section data-step="drives">
+      <p class="hint">Creates a portable copy you can open on any Windows PC: plug in the drive and
+        double-click <code>Start Doomsday Vault.bat</code>. Exporting again later only copies what changed.</p>
+      <div id="drive-list" class="drive-list"></div>
+      <div class="dialog-actions">
+        <button class="btn ghost" type="button" data-export="refresh">Refresh</button>
+      </div>
+    </section>
+
+    <section data-step="content" hidden>
+      <p id="plan-drive" class="plan-drive"></p>
+      <div class="disk-bar fit-bar" role="img" aria-label="Space needed versus space available"><i class="lib"></i></div>
+      <p id="fit-text" class="fit-text"></p>
+      <div class="toolbar">
+        <button class="btn small" type="button" data-export="fit">Fit to drive</button>
+        <button class="btn small ghost" type="button" data-export="all">Select all</button>
+        <span class="hint">Fit to drive leaves out Low priority first, then Normal, largest first.</span>
+      </div>
+      <div id="plan-list" class="plan-list"></div>
+      <p id="export-error" class="error" role="alert"></p>
+      <div class="dialog-actions">
+        <button class="btn ghost" type="button" data-export="back">Back</button>
+        <button class="btn" type="button" data-export="start">Copy to drive</button>
+      </div>
+    </section>
+
+    <section data-step="progress" hidden>
+      <div id="export-progress"></div>
+      <div class="dialog-actions">
+        <button class="btn danger" type="button" data-export="cancel">Cancel copy</button>
+      </div>
+    </section>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="static/app.js"></script>
+  <script src="static/vault.js"></script>
+</body>
+</html>

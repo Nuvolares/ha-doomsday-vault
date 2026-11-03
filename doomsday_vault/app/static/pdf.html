@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" data-theme="green">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    html, body { height: 100%; }
+    body { display: flex; flex-direction: column; overflow: hidden; }
+    .pdf-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+      flex-wrap: wrap;
+    }
+    .pdf-title {
+      flex: 1 1 160px;
+      min-width: 0;
+      font: 20px var(--font-display);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--fg-strong);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .embedded .pdf-title { display: none; }  /* the app's reader bar already shows it */
+    .pdf-nav { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--dim); }
+    .pdf-nav input { width: 4.5em; padding: 4px 6px; text-align: center; }
+    #pages { flex: 1; width: 100%; max-width: none; margin: 0; overflow: auto; scrollbar-gutter: stable; padding: 12px; background: var(--bg); }
+    .page {
+      position: relative;
+      margin: 0 auto 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+    .page canvas { display: block; width: 100%; height: 100%; }
+    .hitbox {
+      position: absolute;
+      background: rgba(255, 214, 92, 0.45);
+      outline: 1px solid rgba(255, 214, 92, 0.9);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+    .pdf-message { color: var(--dim); text-align: center; padding: 60px 16px; font: 22px var(--font-display); }
+  </style>
+</head>
+<body>
+  <div class="pdf-bar">
+    <span id="title" class="pdf-title">Loading…</span>
+    <div class="pdf-nav">
+      <label class="sr-only" for="page">Page</label>
+      <input id="page" type="number" min="1" value="1" inputmode="numeric">
+      <span>/ <span id="count">–</span></span>
+    </div>
+    <button id="zoom-out" class="btn small ghost" type="button" aria-label="Zoom out">−</button>
+    <button id="fit" class="btn small ghost" type="button">Fit</button>
+    <button id="zoom-in" class="btn small ghost" type="button" aria-label="Zoom in">+</button>
+  </div>
+  <main id="pages" aria-live="polite"><p class="pdf-message">Retrieving document…</p></main>
+  <script type="module" src="pdfviewer.js"></script>
+</body>
+</html>

@@ -1,0 +1,526 @@
+# Built-in catalog shipped with Doomsday Vault.
+#
+# type: kiwix -> a ZIM archive from https://download.kiwix.org/zim/<folder>/
+#                "book" is the file name without the trailing _YYYY-MM.zim;
+#                the newest dated release is picked automatically.
+# type: url   -> any direct file link (PDF, TXT, HTML, ZIM, ...).
+#
+# size_hint is informational (approximate size of the latest release).
+sources:
+  # --- Encyclopedia & Reference -------------------------------------------
+  - id: wikipedia
+    name: Wikipedia (complete, with images)
+    category: Encyclopedia & Reference
+    type: kiwix
+    folder: wikipedia
+    book: wikipedia_en_all_maxi
+    size_hint: 119G
+    enabled: true
+    description: All of English Wikipedia, every article with images.
+  - id: wiktionary
+    name: Wiktionary
+    category: Encyclopedia & Reference
+    type: kiwix
+    folder: wiktionary
+    book: wiktionary_en_all_nopic
+    size_hint: 8G
+    enabled: true
+    description: Dictionary and thesaurus for English words.
+  - id: wikivoyage
+    name: Wikivoyage
+    category: Encyclopedia & Reference
+    type: kiwix
+    folder: wikivoyage
+    book: wikivoyage_en_all_maxi
+    size_hint: 1G
+    enabled: true
+    description: Travel guides for regions, cities and routes.
+  - id: wikibooks
+    name: Wikibooks
+    category: Encyclopedia & Reference
+    type: kiwix
+    folder: wikibooks
+    book: wikibooks_en_all_maxi
+    size_hint: 5G
+    enabled: true
+    description: Open textbooks and how-to manuals on hundreds of subjects.
+  - id: wikiversity
+    name: Wikiversity
+    category: Encyclopedia & Reference
+    type: kiwix
+    folder: wikiversity
+    book: wikiversity_en_all_maxi
+    size_hint: 2G
+    enabled: false
+    description: Free learning materials and courses.
+
+  # --- Medical -------------------------------------------------------------
+  - id: mdwiki
+    name: WikiMed Medical Encyclopedia
+    category: Medical
+    type: kiwix
+    folder: other
+    book: mdwiki_en_all_maxi
+    size_hint: 2.1G
+    enabled: true
+    description: 70,000+ medical articles curated by WikiProject Medicine.
+  - id: medlineplus
+    name: MedlinePlus
+    category: Medical
+    type: kiwix
+    folder: zimit
+    book: medlineplus.gov_en_all
+    size_hint: 1.8G
+    enabled: true
+    description: US National Library of Medicine health topics, drugs and supplements.
+  - id: cdc-travel
+    name: CDC Travelers' Health
+    category: Medical
+    type: kiwix
+    folder: zimit
+    book: wwwnc.cdc.gov_en_all
+    size_hint: 170M
+    enabled: true
+    description: Disease, vaccine and outbreak information from the CDC.
+  - id: military-medicine
+    name: Military Medicine Manuals
+    category: Medical
+    type: kiwix
+    folder: zimit
+    book: irp.fas.org_en_military-medicine
+    size_hint: 62M
+    enabled: true
+    description: Field medical manuals collected by the Federation of American Scientists.
+  - id: nhs-medicines
+    name: NHS Medicines A-Z
+    category: Medical
+    type: kiwix
+    folder: zimit
+    book: nhs.uk_en_medicines
+    size_hint: 15M
+    enabled: true
+    description: What common medicines are for, dosage and side effects.
+  - id: zimgit-medicine
+    name: Essential Medicine Library
+    category: Medical
+    type: kiwix
+    folder: other
+    book: zimgit-medicine_en
+    size_hint: 67M
+    enabled: true
+    description: Curated first aid and medicine guides for low-resource settings.
+  - id: libretexts-med
+    name: LibreTexts Medicine
+    category: Medical
+    type: kiwix
+    folder: libretexts
+    book: libretexts.org_en_med
+    size_hint: 1.1G
+    enabled: true
+    description: Open textbooks on anatomy, nursing, pharmacology and more.
+  - id: gutenberg-medicine
+    name: Project Gutenberg - Medicine
+    category: Medical
+    type: kiwix
+    folder: gutenberg
+    book: gutenberg_en_lcc-r
+    size_hint: 1.9G
+    enabled: true
+    description: Public-domain books on medicine (Library of Congress class R).
+  - id: wikipedia-medicine
+    name: Wikipedia Medicine subset
+    category: Medical
+    type: kiwix
+    folder: wikipedia
+    book: wikipedia_en_medicine_maxi
+    size_hint: 1.7G
+    enabled: false
+    description: Medical articles only. Redundant if full Wikipedia is enabled.
+
+  # --- Survival & Preparedness ----------------------------------------------
+  - id: ready-gov
+    name: Ready.gov
+    category: Survival & Preparedness
+    type: kiwix
+    folder: zimit
+    book: ready.gov_en_all
+    size_hint: 1.9G
+    enabled: true
+    description: FEMA's official disaster preparedness guides and checklists.
+  - id: post-disaster
+    name: Post-Disaster Library
+    category: Survival & Preparedness
+    type: kiwix
+    folder: other
+    book: zimgit-post-disaster_en
+    size_hint: 615M
+    enabled: true
+    description: Shelter, sanitation and rebuilding guides for after a disaster.
+  - id: water
+    name: Water Library
+    category: Survival & Preparedness
+    type: kiwix
+    folder: other
+    book: zimgit-water_en
+    size_hint: 20M
+    enabled: true
+    description: Finding, purifying and storing safe drinking water.
+  - id: knots
+    name: Knots
+    category: Survival & Preparedness
+    type: kiwix
+    folder: other
+    book: zimgit-knots_en
+    size_hint: 27M
+    enabled: true
+    description: Illustrated guide to essential knots.
+  - id: armypubs
+    name: US Army Publications
+    category: Survival & Preparedness
+    type: kiwix
+    folder: zimit
+    book: armypubs_en_all
+    size_hint: 7.7G
+    enabled: true
+    description: Army field manuals and technical publications (survival, first aid, field craft).
+  - id: gutenberg-military
+    name: Project Gutenberg - Military Science
+    category: Survival & Preparedness
+    type: kiwix
+    folder: gutenberg
+    book: gutenberg_en_lcc-u
+    size_hint: 1.2G
+    enabled: true
+    description: Public-domain books on military science and field craft.
+  - id: se-outdoors
+    name: The Great Outdoors Q&A
+    category: Survival & Preparedness
+    type: kiwix
+    folder: stack_exchange
+    book: outdoors.stackexchange.com_en_all
+    size_hint: 135M
+    enabled: true
+    description: Hiking, camping, wilderness survival questions and answers.
+  - id: survivorlibrary
+    name: Survivor Library
+    category: Survival & Preparedness
+    type: kiwix
+    folder: zimit
+    book: survivorlibrary.com_en_all
+    size_hint: 205G
+    enabled: false
+    description: Huge archive of historical how-to books on pre-industrial technology. Very large.
+
+  # --- Food & Farming ----------------------------------------------------------
+  - id: food-preparation
+    name: Food Preparation Library
+    category: Food & Farming
+    type: kiwix
+    folder: other
+    book: zimgit-food-preparation_en
+    size_hint: 93M
+    enabled: true
+    description: Food preservation, storage and preparation.
+  - id: gutenberg-agriculture
+    name: Project Gutenberg - Agriculture
+    category: Food & Farming
+    type: kiwix
+    folder: gutenberg
+    book: gutenberg_en_lcc-s
+    size_hint: 4.2G
+    enabled: true
+    description: Public-domain books on farming, animal husbandry, forestry and hunting.
+  - id: se-gardening
+    name: Gardening & Landscaping Q&A
+    category: Food & Farming
+    type: kiwix
+    folder: stack_exchange
+    book: gardening.stackexchange.com_en_all
+    size_hint: 890M
+    enabled: true
+    description: Growing food, plant diseases, soil and pests.
+  - id: se-cooking
+    name: Seasoned Advice (Cooking Q&A)
+    category: Food & Farming
+    type: kiwix
+    folder: stack_exchange
+    book: cooking.stackexchange.com_en_all
+    size_hint: 227M
+    enabled: true
+    description: Cooking techniques, food safety and substitutions.
+  - id: se-homebrew
+    name: Homebrewing Q&A
+    category: Food & Farming
+    type: kiwix
+    folder: stack_exchange
+    book: homebrew.stackexchange.com_en_all
+    size_hint: 36M
+    enabled: true
+    description: Fermentation, brewing and preserving.
+  - id: recipes-public-domain
+    name: Public Domain Recipes
+    category: Food & Farming
+    type: kiwix
+    folder: zimit
+    book: publicdomainrecipes.com_en_all
+    size_hint: 16M
+    enabled: true
+    description: Simple recipes free to use and share.
+  - id: recipes-based-cooking
+    name: Based Cooking
+    category: Food & Farming
+    type: kiwix
+    folder: zimit
+    book: based.cooking_en_all
+    size_hint: 15M
+    enabled: true
+    description: No-nonsense recipe collection.
+
+  # --- Repair & DIY ------------------------------------------------------------
+  - id: ifixit
+    name: iFixit Repair Guides
+    category: Repair & DIY
+    type: kiwix
+    folder: ifixit
+    book: ifixit_en_all
+    size_hint: 3.3G
+    enabled: true
+    description: Step-by-step repair guides for electronics, vehicles, appliances and more.
+  - id: se-diy
+    name: Home Improvement Q&A
+    category: Repair & DIY
+    type: kiwix
+    folder: stack_exchange
+    book: diy.stackexchange.com_en_all
+    size_hint: 1.9G
+    enabled: true
+    description: Electrical, plumbing, carpentry and home repair answers.
+  - id: se-mechanics
+    name: Motor Vehicle Maintenance Q&A
+    category: Repair & DIY
+    type: kiwix
+    folder: stack_exchange
+    book: mechanics.stackexchange.com_en_all
+    size_hint: 326M
+    enabled: true
+    description: Car, truck and engine repair.
+  - id: se-bicycles
+    name: Bicycles Q&A
+    category: Repair & DIY
+    type: kiwix
+    folder: stack_exchange
+    book: bicycles.stackexchange.com_en_all
+    size_hint: 476M
+    enabled: true
+    description: Bicycle repair and maintenance.
+  - id: se-woodworking
+    name: Woodworking Q&A
+    category: Repair & DIY
+    type: kiwix
+    folder: stack_exchange
+    book: woodworking.stackexchange.com_en_all
+    size_hint: 102M
+    enabled: true
+    description: Tools, joinery and wood finishing.
+  - id: se-electronics
+    name: Electrical Engineering Q&A
+    category: Repair & DIY
+    type: kiwix
+    folder: stack_exchange
+    book: electronics.stackexchange.com_en_all
+    size_hint: 4.0G
+    enabled: true
+    description: Circuits, power supplies, batteries and electronics repair.
+  - id: gutenberg-technology
+    name: Project Gutenberg - Technology
+    category: Repair & DIY
+    type: kiwix
+    folder: gutenberg
+    book: gutenberg_en_lcc-t
+    size_hint: 12G
+    enabled: true
+    description: Public-domain books on engineering, building, crafts and manufacturing.
+
+  # --- Energy & Engineering ----------------------------------------------------
+  - id: appropedia
+    name: Appropedia
+    category: Energy & Engineering
+    type: kiwix
+    folder: other
+    book: appropedia_en_all_maxi
+    size_hint: 555M
+    enabled: true
+    description: Appropriate technology, sustainability and off-grid solutions.
+  - id: energypedia
+    name: Energypedia
+    category: Energy & Engineering
+    type: kiwix
+    folder: other
+    book: energypedia_en_all_maxi
+    size_hint: 763M
+    enabled: true
+    description: Solar, wind, hydro and biomass energy know-how.
+  - id: se-sustainability
+    name: Sustainable Living Q&A
+    category: Energy & Engineering
+    type: kiwix
+    folder: stack_exchange
+    book: sustainability.stackexchange.com_en_all
+    size_hint: 26M
+    enabled: true
+    description: Living sustainably and self-sufficiently.
+  - id: libretexts-eng
+    name: LibreTexts Engineering
+    category: Energy & Engineering
+    type: kiwix
+    folder: libretexts
+    book: libretexts.org_en_eng
+    size_hint: 647M
+    enabled: true
+    description: Open engineering textbooks.
+
+  # --- Communications ------------------------------------------------------------
+  - id: se-ham
+    name: Amateur Radio Q&A
+    category: Communications
+    type: kiwix
+    folder: stack_exchange
+    book: ham.stackexchange.com_en_all
+    size_hint: 74M
+    enabled: true
+    description: Ham radio equipment, antennas, licensing and emergency comms.
+  - id: se-raspberrypi
+    name: Raspberry Pi Q&A
+    category: Communications
+    type: kiwix
+    folder: stack_exchange
+    book: raspberrypi.stackexchange.com_en_all
+    size_hint: 285M
+    enabled: true
+    description: Small computers for off-grid networking and automation.
+
+  # --- Science & Education ---------------------------------------------------------
+  - id: libretexts-bio
+    name: LibreTexts Biology
+    category: Science & Education
+    type: kiwix
+    folder: libretexts
+    book: libretexts.org_en_bio
+    size_hint: 2.1G
+    enabled: true
+    description: Open biology textbooks.
+  - id: libretexts-chem
+    name: LibreTexts Chemistry
+    category: Science & Education
+    type: kiwix
+    folder: libretexts
+    book: libretexts.org_en_chem
+    size_hint: 2.0G
+    enabled: true
+    description: Open chemistry textbooks.
+  - id: libretexts-phys
+    name: LibreTexts Physics
+    category: Science & Education
+    type: kiwix
+    folder: libretexts
+    book: libretexts.org_en_phys
+    size_hint: 534M
+    enabled: true
+    description: Open physics textbooks.
+  - id: libretexts-math
+    name: LibreTexts Mathematics
+    category: Science & Education
+    type: kiwix
+    folder: libretexts
+    book: libretexts.org_en_math
+    size_hint: 792M
+    enabled: true
+    description: Open mathematics textbooks.
+  - id: libretexts-geo
+    name: LibreTexts Geosciences
+    category: Science & Education
+    type: kiwix
+    folder: libretexts
+    book: libretexts.org_en_geo
+    size_hint: 1.1G
+    enabled: true
+    description: Geology, weather and earth science.
+  - id: libretexts-k12
+    name: LibreTexts K-12
+    category: Science & Education
+    type: kiwix
+    folder: libretexts
+    book: libretexts.org_en_k12
+    size_hint: 353M
+    enabled: true
+    description: School-level material for teaching children.
+  - id: gutenberg-science
+    name: Project Gutenberg - Science
+    category: Science & Education
+    type: kiwix
+    folder: gutenberg
+    book: gutenberg_en_lcc-q
+    size_hint: 17G
+    enabled: false
+    description: Public-domain books on mathematics, physics, chemistry, biology.
+  - id: crashcourse
+    name: Crash Course (video)
+    category: Science & Education
+    type: kiwix
+    folder: other
+    book: crashcourse_en_all
+    size_hint: 21G
+    enabled: false
+    description: Educational video courses across many subjects.
+  - id: khanacademy
+    name: Khan Academy (video)
+    category: Science & Education
+    type: kiwix
+    folder: other
+    book: khanacademy_en_all
+    size_hint: 168G
+    enabled: false
+    description: Complete Khan Academy video library. Very large.
+
+  # --- Books & Literature ----------------------------------------------------------
+  - id: gutenberg-all
+    name: Project Gutenberg - Everything
+    category: Books & Literature
+    type: kiwix
+    folder: gutenberg
+    book: gutenberg_en_all
+    size_hint: 206G
+    enabled: false
+    description: All 70,000+ English public-domain books. Very large.
+
+  # --- Maps ----------------------------------------------------------------------------
+  - id: maps-north-america
+    name: North America Map (USA, Canada, Mexico)
+    category: Maps
+    type: kiwix
+    folder: maps
+    book: maps_en_north-america
+    restyle: false
+    size_hint: 21G
+    enabled: true
+    description: Offline OpenStreetMap of the whole continent with place search.
+  - id: maps-usa
+    name: United States Map
+    category: Maps
+    type: kiwix
+    folder: maps
+    book: maps_en_united-states-of-america
+    restyle: false
+    size_hint: 15G
+    enabled: false
+    description: Offline OpenStreetMap of the USA only.
+  - id: maps-canada
+    name: Canada Map
+    category: Maps
+    type: kiwix
+    folder: maps
+    book: maps_en_canada
+    restyle: false
+    size_hint: 10G
+    enabled: false
+    description: Offline OpenStreetMap of Canada only.

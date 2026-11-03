@@ -1,0 +1,134 @@
+/* Doomsday Vault page skin.
+   Injected into every archived page (Wikipedia, Stack Exchange, manuals ...)
+   so all content reads like it came out of one terminal. */
+
+@font-face {
+  font-family: "VT323";
+  src: url("fonts/vt323.woff2") format("woff2");
+  font-display: swap;
+}
+
+:root {
+  --dv-bg: #050905;
+  --dv-panel: #0c160d;
+  --dv-line: #1f4126;
+  --dv-fg: #b9f2c6;
+  --dv-strong: #e1ffe8;
+  --dv-accent: #41ff74;
+  --dv-dim: #6aa776;
+  --dv-glow: 0 0 6px rgba(65, 255, 116, 0.35);
+  --dv-display: "VT323", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  /* Body text uses a regular proportional font: a monospace font is much wider than what
+     the pages were laid out for and pushes text out of boxes and into pictures. */
+  --dv-body: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "DejaVu Sans", Arial, sans-serif;
+  --dv-mono: ui-monospace, "Cascadia Mono", "SFMono-Regular", Consolas, "DejaVu Sans Mono", monospace;
+  color-scheme: dark;
+}
+
+:root[data-dv-theme="amber"] {
+  --dv-bg: #0a0603;
+  --dv-panel: #160e06;
+  --dv-line: #44301a;
+  --dv-fg: #ffdcae;
+  --dv-strong: #fff1db;
+  --dv-accent: #ffb030;
+  --dv-dim: #b08550;
+  --dv-glow: 0 0 6px rgba(255, 176, 48, 0.35);
+}
+
+html {
+  background: var(--dv-bg) !important;
+}
+
+body {
+  background: var(--dv-bg) !important;
+  color: var(--dv-fg) !important;
+  font-family: var(--dv-body) !important;
+  line-height: 1.6 !important;
+  max-width: 980px !important;
+  margin: 0 auto !important;
+  padding: 20px 18px 64px !important;
+}
+
+/* Flatten every site's own colors and fonts into the library palette. */
+/* :where() keeps this reset weak, so the library rules below always win over it. */
+body :where(*:not(svg, svg *, img, video, canvas, iframe, math, math *)),
+body :where(*)::before, body :where(*)::after {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: inherit !important;
+  border-color: var(--dv-line) !important;
+  font-family: inherit !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* Headings keep the size and spacing the page was laid out with; only the color changes. */
+h1, h2, h3, h4, h5, h6,
+h1 *, h2 *, h3 *, h4 *, h5 *, h6 * {
+  color: var(--dv-strong) !important;
+}
+h1 { text-shadow: var(--dv-glow) !important; }
+
+a, a * { color: var(--dv-accent) !important; text-decoration-color: color-mix(in srgb, var(--dv-accent) 45%, transparent) !important; }
+a:hover { text-decoration: underline !important; }
+a:visited, a:visited * { color: color-mix(in srgb, var(--dv-accent) 75%, var(--dv-fg)) !important; }
+
+strong, b, th, dt { color: var(--dv-strong) !important; }
+small, figcaption, .caption, cite { color: var(--dv-dim) !important; }
+mark { background-color: color-mix(in srgb, var(--dv-accent) 30%, transparent) !important; color: var(--dv-strong) !important; }
+hr { border: 0 !important; border-top: 1px solid var(--dv-line) !important; }
+
+pre, code, kbd, samp {
+  font-family: var(--dv-mono) !important;
+  background-color: var(--dv-panel) !important;
+  color: var(--dv-strong) !important;
+}
+pre { padding: 12px !important; border: 1px solid var(--dv-line) !important; overflow: auto !important; }
+code { padding: 0 3px !important; }
+pre code { padding: 0 !important; }
+
+blockquote {
+  border-left: 3px solid var(--dv-accent) !important;
+  margin-left: 0 !important;
+  padding-left: 14px !important;
+  color: var(--dv-fg) !important;
+}
+
+table { border-collapse: collapse !important; max-width: 100% !important; }
+th, td { border: 1px solid var(--dv-line) !important; padding: 4px 8px !important; }
+th { background-color: var(--dv-panel) !important; }
+
+/* Info boxes, notes, sidebars and other "boxed" elements read as terminal panels. */
+aside, .infobox, .sidebar, .navbox, .ambox, .note, .notice, .hatnote, .thumbinner, .toc, #toc {
+  background-color: var(--dv-panel) !important;
+  border: 1px solid var(--dv-line) !important;
+}
+
+/* Pictures keep their colors; transparent diagrams and formulas get a light card so dark lines stay visible. */
+img, video { max-width: 100% !important; height: auto; }
+img { background-color: #e9eee9 !important; border-radius: 2px; }
+
+input, select, textarea, button {
+  background-color: var(--dv-panel) !important;
+  color: var(--dv-strong) !important;
+  border: 1px solid var(--dv-line) !important;
+}
+
+::selection { background: color-mix(in srgb, var(--dv-accent) 35%, transparent); color: var(--dv-strong); }
+
+/* Notice shown when a page links to the internet */
+#dv-offline-note {
+  position: fixed !important;
+  left: 50% !important;
+  bottom: 16px !important;
+  transform: translateX(-50%) !important;
+  z-index: 2147483647 !important;
+  max-width: calc(100vw - 32px) !important;
+  padding: 10px 16px !important;
+  background-color: var(--dv-panel) !important;
+  border: 1px solid var(--dv-accent) !important;
+  color: var(--dv-strong) !important;
+  font: 18px/1.3 var(--dv-display) !important;
+  letter-spacing: 0.04em !important;
+}

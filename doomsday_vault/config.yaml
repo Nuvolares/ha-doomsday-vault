@@ -1,0 +1,45 @@
+name: Doomsday Vault
+version: "0.5.0"
+slug: doomsday_vault
+description: >-
+  Your preparedness vault: an offline survival library (Wikipedia, medicine,
+  repair, farming, manuals, North America maps), a supply inventory with
+  expiration dates, and an armory synced with WeaponLog.
+arch:
+  - amd64
+  - aarch64
+init: false
+startup: application
+boot: auto
+ingress: true
+ingress_port: 8099
+ingress_stream: true
+panel_icon: mdi:safe
+panel_title: Doomsday Vault
+hassio_api: true
+map:
+  - type: media
+    read_only: false
+  - type: share
+    read_only: false
+  # "addon_config" works on every Supervisor version; newer ones also accept "app_config".
+  - type: addon_config
+    read_only: false
+options:
+  storage_path: /media/doomsday_vault
+  update_schedule: weekly
+  update_hour: 3
+  auto_start_downloads: false
+  min_free_gb: 25
+  max_download_mbit: 0
+  verify_checksums: true
+  log_level: info
+schema:
+  storage_path: str
+  update_schedule: list(daily|weekly|monthly|manual)
+  update_hour: int(0,23)
+  auto_start_downloads: bool
+  min_free_gb: int(0,2000)
+  max_download_mbit: int(0,10000)
+  verify_checksums: bool
+  log_level: list(debug|info|warning|error)

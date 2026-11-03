@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <defs>
+    <clipPath id="c"><polygon points="120,36 192.7,78 192.7,162 120,204 47.3,162 47.3,78"/></clipPath>
+  </defs>
+  <polygon points="120,14 211.8,67 211.8,173 120,226 28.2,173 28.2,67" fill="#0a0603" stroke="#ffb030" stroke-width="6" stroke-linejoin="round"/>
+  <polygon points="120,36 192.7,78 192.7,162 120,204 47.3,162 47.3,78" fill="none" stroke="#ffb030" stroke-width="2.5" stroke-linejoin="round"/>
+  <g fill="#ffb030">
+    <circle cx="120" cy="25" r="4"/><circle cx="202" cy="72.5" r="4"/><circle cx="202" cy="167.5" r="4"/>
+    <circle cx="120" cy="215" r="4"/><circle cx="38" cy="167.5" r="4"/><circle cx="38" cy="72.5" r="4"/>
+  </g>
+  <g clip-path="url(#c)">
+    <circle cx="120" cy="100" r="52" fill="none" stroke="#ffb030" stroke-width="104" stroke-dasharray="10.21 10.21" opacity="0.22"/>
+  </g>
+        <!-- vault door -->
+        <circle cx="120" cy="100" r="50" fill="#0a0603" stroke="#ffb030" stroke-width="5"/>
+        <circle cx="120" cy="100" r="40" fill="none" stroke="#ffb030" stroke-width="2.5"/>
+        <rect x="61" y="80" width="11" height="12" rx="1.5" fill="#ffb030"/><rect x="61" y="108" width="11" height="12" rx="1.5" fill="#ffb030"/>
+        <g fill="#ffb030">
+          <circle cx="161.6" cy="82.8" r="2.6"/><circle cx="137.2" cy="58.4" r="2.6"/><circle cx="102.8" cy="58.4" r="2.6"/><circle cx="78.4" cy="82.8" r="2.6"/>
+          <circle cx="78.4" cy="117.2" r="2.6"/><circle cx="102.8" cy="141.6" r="2.6"/><circle cx="137.2" cy="141.6" r="2.6"/><circle cx="161.6" cy="117.2" r="2.6"/>
+        </g>
+        <!-- handwheel -->
+        <circle cx="120" cy="100" r="20" fill="none" stroke="#ffb030" stroke-width="3"/>
+        <g stroke="#ffb030" stroke-width="5" stroke-linecap="round">
+          <line x1="120" y1="72" x2="120" y2="128"/><line x1="95.75" y1="86" x2="144.25" y2="114"/><line x1="95.75" y1="114" x2="144.25" y2="86"/>
+        </g>
+        <g fill="#ffb030">
+          <circle cx="120" cy="72" r="4.5"/><circle cx="120" cy="128" r="4.5"/><circle cx="95.75" cy="86" r="4.5"/>
+          <circle cx="144.25" cy="114" r="4.5"/><circle cx="95.75" cy="114" r="4.5"/><circle cx="144.25" cy="86" r="4.5"/>
+          <circle cx="120" cy="100" r="9"/>
+        </g>
+        <circle cx="120" cy="100" r="3.5" fill="#0a0603"/>
+  <polygon points="30,166 4,166 14,180 4,194 30,194" fill="#ffb030" opacity="0.75"/>
+  <polygon points="210,166 236,166 226,180 236,194 210,194" fill="#ffb030" opacity="0.75"/>
+  <rect x="18" y="160" width="204" height="30" rx="2" fill="#ffb030"/>
+  <text x="120" y="182" text-anchor="middle" textLength="176" lengthAdjust="spacingAndGlyphs"
+        font-family="VT323, Consolas, monospace" font-weight="bold" font-size="22" fill="#0a0603">DOOMSDAY VAULT</text>
+</svg>
