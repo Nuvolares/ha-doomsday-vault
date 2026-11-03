@@ -22,6 +22,7 @@ from decimal import Decimal, InvalidOperation
 from pathlib import Path
 
 import aiohttp
+from yarl import URL
 
 log = logging.getLogger(__name__)
 
@@ -34,9 +35,10 @@ KINDS = {
     "weapons": {
         "path": "weapons/",
         "fields": ["name", "caliber", "weapon_type", "serial_number", "purchase_date", "purchase_price",
-                   "rental_cost", "barrel_length", "barrel_length_unit", "twist_rate", "twist_direction",
-                   "rounds_fired_base"],
+                   "barrel_length", "barrel_length_unit", "twist_rate", "twist_direction", "rounds_fired_base"],
         "photo": "photo",
+        # Only owned weapons belong in the Armory; rentals and sold ones stay in WeaponLog only.
+        "keep": lambda item: (item.get("weapon_type") or "owned") == "owned",
     },
     "ammo": {
         "path": "ammo/",
@@ -53,7 +55,7 @@ KINDS = {
     },
 }
 # Fields WeaponLog stores as numbers or dates: an empty form value is sent as null.
-NULLABLE = {"purchase_date", "purchase_price", "rental_cost", "barrel_length", "rounds_fired_base", "grain",
+NULLABLE = {"purchase_date", "purchase_price", "barrel_length", "rounds_fired_base", "grain",
             "ballistic_coefficient", "muzzle_velocity", "bullet_length", "test_barrel_length", "price",
             "sight_height", "adjustment_per_click", "zero_distance"}
 REQUIRED = {"weapons": ("name", "caliber"), "ammo": ("name", "caliber", "grain", "style"),
@@ -75,6 +77,10 @@ def norm(value):
         return str(Decimal(str(value)).normalize())
     except (InvalidOperation, ValueError):
         return str(value).strip()
+
+
+def kept(kind: str, item: dict) -> bool:
+    return KINDS[kind].get("keep", lambda item: True)(item)
 
 
 def as_int(value) -> int:
@@ -144,8 +150,8 @@ class Armory:
         return item
 
     def overview(self) -> dict:
-        items = {kind: [self.view_record(kind, key, rec) for key, rec in self.data[kind].items()
-                        if not rec.get("deleted")] for kind in KINDS}
+        items = {kind: [item for item in (self.view_record(kind, key, rec) for key, rec in self.data[kind].items()
+                                          if not rec.get("deleted")) if kept(kind, item)] for kind in KINDS}
         pending = sum(1 for kind in KINDS for rec in self.data[kind].values()
                       if rec.get("changed") or rec.get("deleted") or rec.get("id") is None)
         cfg = self.config
@@ -169,6 +175,8 @@ class Armory:
             if missing:
                 raise ValueError("Required: " + ", ".join(missing))
             key = "l" + uuid.uuid4().hex[:12]
+            if kind == "weapons":
+                clean.setdefault("weapon_type", "owned")
             self.data[kind][key] = {"id": None, "base": None, "changed": clean}
         else:
             rec = self.data[kind].get(key)
@@ -217,7 +225,17 @@ class Armory:
 
     # --- WeaponLog API ------------------------------------------------------------
 
-    async def _request(self, method: str, path: str, payload: dict | None = None):
+    def _moved_to(self, location: str) -> str | None:
+        """The new address when a redirect only adds or drops "www." (weaponlog.com -> www.weaponlog.com).
+        Redirects are not followed blindly, so the API token is never sent to another server."""
+        old, new = URL(self.config["url"]), URL(self.config["url"]).join(URL(location))
+        if not old.host or not new.host or new.scheme != "https":
+            return None
+        if new.host.removeprefix("www.") != old.host.removeprefix("www.") or new.host == old.host:
+            return None
+        return str(new.origin())
+
+    async def _request(self, method: str, path: str, payload: dict | None = None, retry: bool = True):
         url = self.config["url"] + API_PREFIX + path
         headers = {"Authorization": f"Token {self.config['token']}", "Accept": "application/json"}
         try:
@@ -231,16 +249,25 @@ class Armory:
                 if resp.status >= 500:
                     raise SyncError(f"WeaponLog is temporarily unavailable (HTTP {resp.status})")
                 if resp.status in (301, 302, 307, 308):
-                    raise SyncError("WeaponLog redirected the request; check the address (https:// and no extra path)")
-                if resp.status >= 400:
-                    body = await resp.text()
-                    raise ValueError(f"HTTP {resp.status}: {body[:300]}")
-                if resp.status == 204:
-                    return None
-                return await resp.json(content_type=None)
+                    location = resp.headers.get("Location", "")
+                    moved = self._moved_to(location) if retry else None
+                    if moved is None:
+                        raise SyncError(f"WeaponLog redirected the request to {location or 'another address'}; "
+                                        "check the address (https:// and no extra path)")
+                else:
+                    if resp.status >= 400:
+                        body = await resp.text()
+                        raise ValueError(f"HTTP {resp.status}: {body[:300]}")
+                    if resp.status == 204:
+                        return None
+                    return await resp.json(content_type=None)
         except (aiohttp.ClientError, asyncio.TimeoutError) as err:
             detail = str(err) or err.__class__.__name__
             raise SyncError(f"WeaponLog is unreachable ({detail})")
+        # Same server under its other name: keep the records (unlike configure()) and use that address.
+        self._log(f"WeaponLog answers at {moved}; address updated")
+        self.config["url"] = moved
+        return await self._request(method, path, payload, retry=False)
 
     async def _fetch_all(self, path: str) -> list[dict]:
         results, page = [], 1
@@ -299,7 +326,9 @@ class Armory:
     async def _sync_kind(self, kind: str) -> None:
         spec = KINDS[kind]
         records = self.data[kind]
-        remote = {r["id"]: r for r in await self._fetch_all(spec["path"])}
+        fetched = await self._fetch_all(spec["path"])
+        remote = {r["id"]: r for r in fetched if kept(kind, r)}
+        left_out = {r["id"]: r for r in fetched if r["id"] not in remote}
 
         for key, rec in list(records.items()):
             name = (rec.get("base") or {}).get("name") or rec.get("changed", {}).get("name") or key
@@ -307,6 +336,16 @@ class Armory:
                 if rec["id"] is None:
                     await self._create(kind, key, rec)
                     continue
+                if rec["id"] in left_out:
+                    if kept(kind, {**left_out[rec["id"]], **rec.get("changed", {})}):
+                        remote[rec["id"]] = left_out[rec["id"]]  # marked owned again here: Home Assistant wins
+                    else:
+                        # Rental or sold in WeaponLog: drop the local copy only, WeaponLog keeps the record.
+                        if rec.get("changed", {}).keys() - {"weapon_type"}:
+                            self._log(f"{name} is no longer owned in WeaponLog; changes made here were not sent",
+                                      logging.WARNING)
+                        del records[key]
+                        continue
                 current = remote.pop(rec["id"], None)
                 if current is None:
                     if rec.get("changed") and not rec.get("deleted"):

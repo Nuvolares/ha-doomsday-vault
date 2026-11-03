@@ -234,7 +234,8 @@ const UNITS = {
   bullet: [["inches", "Inches"], ["mm", "mm"]],
   distance: [["yards", "Yards"], ["meters", "Meters"]],
 };
-const OWNERSHIP = [["owned", "Owned"], ["rental", "Rental"], ["sold", "Sold"]];
+// Rentals are never synced into the Armory; marking a weapon sold removes it after the next sync.
+const OWNERSHIP = [["owned", "Owned"], ["sold", "Sold"]];
 // Field lists mirror armory.py KINDS (the fields WeaponLog lets us edit).
 const ARMORY = {
   weapons: {
@@ -245,7 +246,6 @@ const ARMORY = {
       { f: "serial_number", label: "Serial number" },
       { f: "purchase_date", label: "Purchase date", type: "date" },
       { f: "purchase_price", label: "Purchase price", type: "number" },
-      { f: "rental_cost", label: "Rental cost", type: "number" },
       { f: "rounds_fired_base", label: "Rounds fired before logging", type: "number", int: true },
       { f: "barrel_length", label: "Barrel length", type: "number", group: "Barrel" },
       { f: "barrel_length_unit", label: "Unit", type: "select", options: UNITS.length, group: "Barrel" },

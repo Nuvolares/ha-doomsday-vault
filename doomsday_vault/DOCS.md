@@ -150,11 +150,14 @@ Communication, Clothing & Shelter, Documents, or any category you type in).
 ## Armory (WeaponLog)
 
 The **Armory** tab mirrors your weapons, ammunition and accessories from
-WeaponLog.
+WeaponLog. Only weapons you own are included: rentals and sold weapons stay in
+WeaponLog. Set a weapon's status to **Sold** here and it is marked sold in
+WeaponLog and leaves the Armory.
 
 **Connect:** in WeaponLog open **Settings** and create an **API token**. (If
 the option is missing, an admin has to enable API access for your account
-first.) In the Armory tab press **Connect**, enter the WeaponLog address and the
+first.) In the Armory tab press **Connect**, enter the WeaponLog address
+(`https://www.weaponlog.com` for the hosted service) and the
 token, and choose how often to sync (default every 60 minutes). **Sync now**
 syncs right away.
 

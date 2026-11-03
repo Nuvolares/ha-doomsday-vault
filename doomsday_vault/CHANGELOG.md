@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.5.1
+
+- Fix: Armory sync failed with "WeaponLog redirected the request" when the
+  address was entered as `weaponlog.com`. WeaponLog only answers at
+  `www.weaponlog.com`; the address is now corrected automatically when a
+  redirect only adds or drops "www.", and your Armory records are kept. Other
+  redirects still stop the sync, so the API token is never sent elsewhere,
+  and the message now says where the request was sent.
+- The Armory now holds only weapons you own. Rentals and sold weapons are no
+  longer copied from WeaponLog, and ones already copied are removed from the
+  Armory (they stay in WeaponLog). The Status field offers Owned and Sold;
+  marking a weapon sold updates WeaponLog and removes it from the Armory. The
+  Rental cost field is gone.
+
 ## 0.5.0
 
 - **New name: Doomsday Vault** (was Doomsday Library), with a new logo. Home
